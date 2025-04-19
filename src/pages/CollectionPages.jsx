@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { FaFilter } from "react-icons/fa";
 import FilterSidebar from "../components/Products/FilterSidebar";
 import SortOptions from "../components/Products/SortOptions";
+import ProductGrid from "../components/Products/ProductGrid";
 
 const CollectionPages = () => {
 	const [products, setProducts] = useState([]);
@@ -102,6 +103,8 @@ const CollectionPages = () => {
 				<h2 className="text-2xl uppercase mb-4">All Collections</h2>
 				{/*Right sort options*/}
 				<SortOptions />
+				{/*Grid of Products */}
+				<ProductGrid products={products} />
 			</div>
 		</div>
 	);
