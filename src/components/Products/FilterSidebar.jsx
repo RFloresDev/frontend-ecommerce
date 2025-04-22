@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { TbBackground } from "react-icons/tb";
 import { useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const FilterSidebar = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
+	const navigate = useNavigate();
 	const [filters, setFilters] = useState({
 		category: "",
 		gender: "",
@@ -52,7 +54,20 @@ const FilterSidebar = () => {
 			newFilters[name] = value;
 		}
 		setFilters(newFilters);
-		console.log(newFilters);
+		updateURLParams(newFilters);
+	};
+
+	const updateURLParams = (newFilters) => {
+		const params = new URLSearchParams();
+		Object.keys(newFilters).forEach((key) => {
+			if (Array.isArray(newFilters[key]) && newFilters[key].length > 0) {
+				params.append(key, newFilters[key].join(","));
+			} else if (newFilters[key]) {
+				params.append(key, newFilters[key]);
+			}
+		});
+		setSearchParams(params.toString());
+		navigate(`?${params.toString()}`);
 	};
 
 	return (
@@ -96,7 +111,7 @@ const FilterSidebar = () => {
 							key={color}
 							name="color"
 							value={color}
-							onChange={handleFilterChange}
+							onClick={handleFilterChange}
 							className="w-8 h-8 rounded-full border border-gray-300 cursor-pointer transition hover:scale-105"
 							style={{ backgroundColor: color.toLowerCase() }}></button>
 					))}
