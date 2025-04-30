@@ -70,6 +70,14 @@ const FilterSidebar = () => {
 		navigate(`?${params.toString()}`);
 	};
 
+	const handlePriceChange = (e) => {
+		const newPrice = e.target.value;
+		setPriceRange([0, newPrice]);
+		const newFilters = { ...filters, minPrice: 0, maxPrice: newPrice };
+		setFilters(filters);
+		updateURLParams(newFilters);
+	};
+
 	return (
 		<div className="p-4">
 			<h3 className="text-xl font-medium text-gray-800 mb-4">Filter</h3>
@@ -98,6 +106,7 @@ const FilterSidebar = () => {
 							name="gender"
 							value={gender}
 							onChange={handleFilterChange}
+							checked={filters.gender === gender}
 							className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
 						/>
 						<span className="text-gray-700">{gender}</span>
@@ -113,7 +122,9 @@ const FilterSidebar = () => {
 							name="color"
 							value={color}
 							onClick={handleFilterChange}
-							className="w-8 h-8 rounded-full border border-gray-300 cursor-pointer transition hover:scale-105"
+							className={`"w-8 h-8 rounded-full border border-gray-300 cursor-pointer transition hover:scale-105" ${
+								filters.color === color ? "ring-2 ring-blue-500" : ""
+							}`}
 							style={{ backgroundColor: color.toLowerCase() }}></button>
 					))}
 				</div>
@@ -127,6 +138,7 @@ const FilterSidebar = () => {
 							name="size"
 							value={size}
 							onChange={handleFilterChange}
+							checked={filters.size.includes(size)}
 							className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
 						/>
 						<span className="text-gray-700">{size}</span>
@@ -142,6 +154,7 @@ const FilterSidebar = () => {
 							name="material"
 							value={material}
 							onChange={handleFilterChange}
+							checked={filters.material.includes(material)}
 							className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
 						/>
 						<span className="text-gray-700">{material}</span>
@@ -157,6 +170,7 @@ const FilterSidebar = () => {
 							name="brand"
 							value={brand}
 							onChange={handleFilterChange}
+							checked={filters.brand.includes(brand)}
 							className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
 						/>
 						<span className="text-gray-700">{brand}</span>
